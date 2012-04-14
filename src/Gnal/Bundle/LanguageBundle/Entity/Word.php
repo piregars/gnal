@@ -1,11 +1,11 @@
 <?php
 
-namespace Gnal\Bundle\CoreBundle\Entity;
+namespace Gnal\Bundle\LanguageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="core_word")
+ * @ORM\Table(name="language_word")
  * @ORM\Entity
  */
 class Word

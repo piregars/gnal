@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
             new Acme\UserBundle\AcmeUserBundle(),
             new Gnal\Bundle\CoreBundle\GnalCoreBundle(),
+            new Gnal\Bundle\LanguageBundle\GnalLanguageBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
