@@ -3,6 +3,7 @@
 namespace Gnal\Bundle\LanguageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table(name="language_word")
@@ -18,24 +19,58 @@ class Word
     protected $id;
 
     /**
-     * @ORM\Column(unique="true")
+     * @ORM\Column()
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="text", nullable="true")
+     * @ORM\ManyToOne(targetEntity="Lemma", inversedBy="lexeme")
      */
-    protected $definition;
-    
-    // Noun
-    // Verb
-    // Participle
-    // Interjection
-    // Pronoun
-    // Preposition
-    // Adverb
-    // Conjunction
-    protected $category;
+    protected $lemma;
 
+    /**
+     * @ORM\Column(nullable="true")
+     */
+    protected $tense;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Language", inversedBy="words")
+     */
     protected $language;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    public function getTense()
+    {
+        return $this->tense;
+    }
+    
+    public function setTense($tense)
+    {
+        $this->tense = $tense;
+    
+        return $this;
+    }
+
+    public function getLemma()
+    {
+        return $this->lemma;
+    }
+    
+    public function setLemma($lemma)
+    {
+        $this->lemma = $lemma;
+    
+        return $this;
+    }
 }

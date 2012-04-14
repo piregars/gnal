@@ -4,17 +4,74 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
-    <parameters>
-        <parameter key="gnal_language.example.class">Gnal\Bundle\LanguageBundle\Example</parameter>
-    </parameters>
-
     <services>
-        <service id="gnal_language.example" class="%gnal_language.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <!-- Word Manager -->
+        <service id="gnal.language.word_manager" class="Msi\AdminBundle\Entity\ModelManager">
+            <argument type="service" id="msi.admin.entity_manager" />
+            <argument>Gnal\Bundle\LanguageBundle\Entity\Word</argument>
+        </service>
+        <!-- Word Admin -->
+        <service id="gnal_language_word_admin" parent="msi_admin" class="Gnal\Bundle\LanguageBundle\Admin\WordAdmin">
+            <argument />
+            <argument>GnalLanguageBundle</argument>
+            <call method="setModelManager">
+                <argument type="service" id="gnal.language.word_manager" />
+            </call>
+            <tag name="msi.admin"></tag>
+        </service>
+        <!-- Lemma Manager -->
+        <service id="gnal.language.lemma_manager" class="Msi\AdminBundle\Entity\ModelManager">
+            <argument type="service" id="msi.admin.entity_manager" />
+            <argument>Gnal\Bundle\LanguageBundle\Entity\Lemma</argument>
+        </service>
+        <!-- Lemma Admin -->
+        <service id="gnal_language_lemma_admin" parent="msi_admin" class="Gnal\Bundle\LanguageBundle\Admin\LemmaAdmin">
+            <argument />
+            <argument>GnalLanguageBundle</argument>
+            <call method="setModelManager">
+                <argument type="service" id="gnal.language.lemma_manager" />
+            </call>
+            <call method="setChild">
+                <argument type="service" id="gnal_language_behavior_admin" />
+            </call>
+            <tag name="msi.admin"></tag>
+        </service>
+        <!-- Definition Manager -->
+        <service id="gnal.language.definition_manager" class="Msi\AdminBundle\Entity\ModelManager">
+            <argument type="service" id="msi.admin.entity_manager" />
+            <argument>Gnal\Bundle\LanguageBundle\Entity\Definition</argument>
+        </service>
+        <!-- Definition Admin -->
+        <service id="gnal_language_definition_admin" parent="msi_admin" class="Gnal\Bundle\LanguageBundle\Admin\DefinitionAdmin">
+            <argument />
+            <argument>GnalLanguageBundle</argument>
+            <call method="setModelManager">
+                <argument type="service" id="gnal.language.definition_manager" />
+            </call>
+            <call method="setParent">
+                <argument type="service" id="gnal_language_behavior_admin" />
+            </call>
+            <tag name="msi.admin"></tag>
+        </service>
+        <!-- Behavior Manager -->
+        <service id="gnal.language.behavior_manager" class="Msi\AdminBundle\Entity\ModelManager">
+            <argument type="service" id="msi.admin.entity_manager" />
+            <argument>Gnal\Bundle\LanguageBundle\Entity\Behavior</argument>
+        </service>
+        <!-- Behavior Admin -->
+        <service id="gnal_language_behavior_admin" parent="msi_admin" class="Gnal\Bundle\LanguageBundle\Admin\BehaviorAdmin">
+            <argument />
+            <argument>GnalLanguageBundle</argument>
+            <call method="setModelManager">
+                <argument type="service" id="gnal.language.behavior_manager" />
+            </call>
+            <call method="setParent">
+                <argument type="service" id="gnal_language_lemma_admin" />
+            </call>
+            <call method="setChild">
+                <argument type="service" id="gnal_language_definition_admin" />
+            </call>
+            <tag name="msi.admin"></tag>
         </service>
     </services>
-    -->
 </container>

@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Table(name="language_language")
+ * @ORM\Table(name="language_lemma")
  * @ORM\Entity
  */
-class Language
+class Lemma
 {
     /**
      * @ORM\Column(type="integer")
@@ -17,37 +17,30 @@ class Language
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
-     * @ORM\Column(unique="true")
+     * @ORM\Column()
      */
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Word", mappedBy="language")
+     * @ORM\OneToMany(targetEntity="Word", mappedBy="lemma")
      */
-    protected $words;
+    protected $lexeme;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Behavior", mappedBy="lemma")
+     */
+    protected $behaviors;
 
     public function __construct()
     {
-        $this->words = new ArrayCollection;
+        $this->behaviors = new ArrayCollection;
     }
 
     public function __toString()
     {
         return $this->name;
-    }
-
-    public function addWord($word)
-    {
-        $this->words[] = $word;
-    
-        return $this;
-    }
-    
-    public function getWords()
-    {
-        return $this->words;
     }
 
     public function getName()
@@ -58,10 +51,10 @@ class Language
     public function setName($name)
     {
         $this->name = $name;
-
+    
         return $this;
     }
-    
+
     public function getId()
     {
         return $this->id;

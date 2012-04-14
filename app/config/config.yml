@@ -60,6 +60,7 @@ doctrine:
                     FOSUserBundle: ~
                     MsiAdminBundle: ~
                     AcmeUserBundle: ~
+                    GnalLanguageBundle: ~
                     translatable:
                         alias: Gedmo
                         type: annotation

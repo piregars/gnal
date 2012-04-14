@@ -3,12 +3,13 @@
 namespace Gnal\Bundle\LanguageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Table(name="language_word_category")
+ * @ORM\Table(name="language_definition")
  * @ORM\Entity
  */
-class WordCategory
+class Definition
 {
     /**
      * @ORM\Column(type="integer")
@@ -16,9 +17,9 @@ class WordCategory
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
-     * @ORM\Column(unique="true")
+     * @ORM\Column(type="text")
      */
-    protected $name;
+    protected $body;
 }
