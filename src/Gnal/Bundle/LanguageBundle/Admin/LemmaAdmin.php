@@ -10,7 +10,7 @@ class LemmaAdmin extends Admin
     {
         $builder
             ->add('name')
-            ->add('lexicalCategory')
+            ->add('lexicalCategory', 'text', array('label' => 'Lexical Category'))
             ->add('', 'action')
         ;
     }

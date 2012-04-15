@@ -14,7 +14,7 @@ AcmeUserBundle:
     prefix:   /
 
 dashboard:
-    pattern: /cms/
+    pattern: /admin/
     defaults: { _controller: MsiAdminBundle:Core:dashboard }
 
 msi_admin_loader:
