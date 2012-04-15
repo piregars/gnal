@@ -5,8 +5,6 @@ namespace Gnal\Bundle\LanguageBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Gnal\Bundle\LanguageBundle\Entity\Language;
-use Gnal\Bundle\LanguageBundle\Entity\WordCategory;
-use Gnal\Bundle\LanguageBundle\Entity\Word;
 
 class LoadLanguageData extends AbstractFixture
 {

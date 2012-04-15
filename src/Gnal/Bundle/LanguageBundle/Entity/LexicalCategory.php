@@ -24,17 +24,41 @@ class LexicalCategory
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Behavior", inversedBy="lexicalCategory")
+     * @ORM\OneToMany(targetEntity="Lemma", mappedBy="lexicalCategory")
      */
-    protected $behaviors;
+    protected $lemmas;
 
     public function __construct()
     {
-        $this->behaviors = new ArrayCollection;
+        $this->lemmas = new ArrayCollection;
     }
 
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function addLemma($lemma)
+    {
+        $this->lemmas[] = $lemma;
+    
+        return $this;
+    }
+    
+    public function getLemmas()
+    {
+        return $this->lemmas;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
     }
 }

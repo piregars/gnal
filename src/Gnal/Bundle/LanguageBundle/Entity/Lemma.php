@@ -24,18 +24,31 @@ class Lemma
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Word", mappedBy="lemma")
+     * @ORM\Column(type="text", nullable="true")
      */
-    protected $lexeme;
+    protected $denotation;
 
     /**
-     * @ORM\OneToMany(targetEntity="Behavior", mappedBy="lemma")
+     * @ORM\ManyToMany(targetEntity="Connotation", inversedBy="lemmas")
+     * @ORM\JoinTable(name="lemmas_connotations")
      */
-    protected $behaviors;
+    protected $connotations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Lexeme", mappedBy="lemma")
+     */
+    protected $lexemes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="LexicalCategory", inversedBy="lemmas")
+     * @ORM\JoinColumn(name="lexical_category_id")
+     */
+    protected $lexicalCategory;
 
     public function __construct()
     {
-        $this->behaviors = new ArrayCollection;
+        $this->lexemes = new ArrayCollection;
+        $this->connotations = new ArrayCollection;
     }
 
     public function __toString()

@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Table(name="language_word")
+ * @ORM\Table(name="language_lexeme")
  * @ORM\Entity
  */
-class Word
+class Lexeme
 {
     /**
      * @ORM\Column(type="integer")
@@ -24,7 +24,7 @@ class Word
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Lemma", inversedBy="lexeme")
+     * @ORM\ManyToOne(targetEntity="Lemma", inversedBy="lexemes")
      */
     protected $lemma;
 
@@ -34,7 +34,7 @@ class Word
     protected $tense;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Language", inversedBy="words")
+     * @ORM\ManyToOne(targetEntity="Language", inversedBy="lexemes")
      */
     protected $language;
 
