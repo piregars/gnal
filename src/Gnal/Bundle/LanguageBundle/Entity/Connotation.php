@@ -61,4 +61,9 @@ class Connotation
     {
         return $this->lemmas;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

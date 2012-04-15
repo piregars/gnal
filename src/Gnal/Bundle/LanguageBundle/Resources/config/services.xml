@@ -40,5 +40,20 @@
             </call>
             <tag name="msi.admin"></tag>
         </service>
+
+        <!-- Connotation Manager -->
+        <service id="gnal.language.connotation_manager" class="Msi\AdminBundle\Entity\ModelManager">
+            <argument type="service" id="msi.admin.entity_manager" />
+            <argument>Gnal\Bundle\LanguageBundle\Entity\Connotation</argument>
+        </service>
+        <!-- Connotation Admin -->
+        <service id="gnal_language_connotation_admin" parent="msi_admin" class="Gnal\Bundle\LanguageBundle\Admin\ConnotationAdmin">
+            <argument />
+            <argument>GnalLanguageBundle</argument>
+            <call method="setModelManager">
+                <argument type="service" id="gnal.language.connotation_manager" />
+            </call>
+            <tag name="msi.admin"></tag>
+        </service>
     </services>
 </container>
