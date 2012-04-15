@@ -68,4 +68,9 @@ class Lexeme
     
         return $this;
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }
