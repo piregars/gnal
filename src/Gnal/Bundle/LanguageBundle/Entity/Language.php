@@ -24,18 +24,30 @@ class Language
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Lexeme", mappedBy="language")
+     * @ORM\OneToMany(targetEntity="Lemma", mappedBy="language")
      */
-    protected $lexemes;
+    protected $lemmas;
 
     public function __construct()
     {
-        $this->lexemes = new ArrayCollection;
+        $this->lemmas = new ArrayCollection;
     }
 
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function addLemma($lemma)
+    {
+        $this->lemmas[] = $lemma;
+    
+        return $this;
+    }
+    
+    public function getLemmas()
+    {
+        return $this->lemmas;
     }
 
     public function getName()

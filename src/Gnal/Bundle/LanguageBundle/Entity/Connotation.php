@@ -33,6 +33,11 @@ class Connotation
         $this->lemmas = new ArrayCollection;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     public function getName()
     {
         return $this->name;
@@ -43,5 +48,17 @@ class Connotation
         $this->name = $name;
     
         return $this;
+    }
+
+    public function addLemma($lemma)
+    {
+        $this->lemmas[] = $lemma;
+    
+        return $this;
+    }
+    
+    public function getLemmas()
+    {
+        return $this->lemmas;
     }
 }

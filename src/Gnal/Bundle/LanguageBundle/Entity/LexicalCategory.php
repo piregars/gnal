@@ -61,4 +61,9 @@ class LexicalCategory
     
         return $this;
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

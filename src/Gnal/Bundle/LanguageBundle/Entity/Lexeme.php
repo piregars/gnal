@@ -33,11 +33,6 @@ class Lexeme
      */
     protected $tense;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Language", inversedBy="lexemes")
-     */
-    protected $language;
-
     public function getName()
     {
         return $this->name;

@@ -45,6 +45,11 @@ class Lemma
      */
     protected $lexicalCategory;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Language", inversedBy="lemmas")
+     */
+    protected $language;
+
     public function __construct()
     {
         $this->lexemes = new ArrayCollection;
@@ -54,6 +59,30 @@ class Lemma
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function addConnotation($connotation)
+    {
+        $this->connotations[] = $connotation;
+    
+        return $this;
+    }
+    
+    public function getConnotations()
+    {
+        return $this->connotations;
+    }
+
+    public function getLexicalCategory()
+    {
+        return $this->lexicalCategory;
+    }
+    
+    public function setLexicalCategory($lexicalCategory)
+    {
+        $this->lexicalCategory = $lexicalCategory;
+    
+        return $this;
     }
 
     public function getName()

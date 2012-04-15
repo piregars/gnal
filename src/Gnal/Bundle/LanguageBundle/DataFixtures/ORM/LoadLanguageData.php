@@ -5,6 +5,7 @@ namespace Gnal\Bundle\LanguageBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Gnal\Bundle\LanguageBundle\Entity\Language;
+use Gnal\Bundle\LanguageBundle\Entity\LexicalCategory;
 
 class LoadLanguageData extends AbstractFixture
 {
@@ -15,8 +16,7 @@ class LoadLanguageData extends AbstractFixture
         $this->manager = $manager;
 
         $this->loadLanguage();
-        $this->loadWordCategory();
-        $this->loadWord();
+        $this->loadLexicalCategory();
     }
 
     protected function loadLanguage()
@@ -71,7 +71,7 @@ class LoadLanguageData extends AbstractFixture
         }
     }
 
-    protected function loadWordCategory()
+    protected function loadLexicalCategory()
     {
         $names = array(
             'noun',
@@ -85,7 +85,7 @@ class LoadLanguageData extends AbstractFixture
         );
 
         foreach ($names as $name) {
-            $e = new WordCategory();
+            $e = new LexicalCategory();
             $e->setName($name);
             $this->save($e);
 

@@ -4,7 +4,41 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-<!--     <services>
-        
-    </services> -->
+    <services>
+        <!-- Lemma Manager -->
+        <service id="gnal.language.lemma_manager" class="Msi\AdminBundle\Entity\ModelManager">
+            <argument type="service" id="msi.admin.entity_manager" />
+            <argument>Gnal\Bundle\LanguageBundle\Entity\Lemma</argument>
+        </service>
+        <!-- Lemma Admin -->
+        <service id="gnal_language_lemma_admin" parent="msi_admin" class="Gnal\Bundle\LanguageBundle\Admin\LemmaAdmin">
+            <argument />
+            <argument>GnalLanguageBundle</argument>
+            <call method="setModelManager">
+                <argument type="service" id="gnal.language.lemma_manager" />
+            </call>
+            <call method="setChild">
+                <argument type="service" id="gnal_language_lexeme_admin" />
+            </call>
+            <tag name="msi.admin"></tag>
+        </service>
+
+        <!-- Lexeme Manager -->
+        <service id="gnal.language.lexeme_manager" class="Msi\AdminBundle\Entity\ModelManager">
+            <argument type="service" id="msi.admin.entity_manager" />
+            <argument>Gnal\Bundle\LanguageBundle\Entity\Lexeme</argument>
+        </service>
+        <!-- Lexeme Admin -->
+        <service id="gnal_language_lexeme_admin" parent="msi_admin" class="Gnal\Bundle\LanguageBundle\Admin\LexemeAdmin">
+            <argument />
+            <argument>GnalLanguageBundle</argument>
+            <call method="setModelManager">
+                <argument type="service" id="gnal.language.lexeme_manager" />
+            </call>
+            <call method="setParent">
+                <argument type="service" id="gnal_language_lemma_admin" />
+            </call>
+            <tag name="msi.admin"></tag>
+        </service>
+    </services>
 </container>
