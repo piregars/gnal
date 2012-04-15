@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Table(name="language_lemma")
+ * @ORM\Table(name="language_lemma", uniqueConstraints={@ORM\UniqueConstraint(name="uniqness_idx", columns={"name", "lexical_category_id"})})
  * @ORM\Entity
  */
 class Lemma
