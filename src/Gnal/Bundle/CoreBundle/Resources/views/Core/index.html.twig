@@ -9,9 +9,21 @@
 {% block jquery %}<script src="{{ asset('/bundles/msiadmin/vendor/jquery/jquery.js') }}"></script>{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="hero-unit">
-        Hello!
+<div class="container" style="width: 980px;padding-top: 20px;">
+    {% for layer in network.layers %}
+    <div class="well">
+    <div class="row">
+        {% for neuron in layer.neurons %}
+        <div class="span{{ 12 / layer.neurons|length }}" style="text-align: center;">
+            <div class="well" style="background-color: #3a87ad;;margin-bottom: 0;">
+            {% for weight in neuron.weights %}
+            <span class="label label-important" style="position:relative;bottom: 59px;">{{ weight }}</span>
+            {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
     </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

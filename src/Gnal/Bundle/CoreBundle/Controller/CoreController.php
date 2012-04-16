@@ -20,17 +20,9 @@ class CoreController extends ContainerAware
      */
     public function indexAction()
     {
-        $network = $this->container->get('brain')->createNeuralNetwork(array(2, 3, 1));
+        $net = $this->container->get('brain')->createNeuralNetwork(array(2, 3, 1));
 
-        foreach ($network->getLayers() as $layer) {
-            foreach ($layer->getNeurons() as $neuron) {
-                foreach ($neuron->getWeights() as $weight) {
-                    echo $weight.'<br>';
-                }
-                echo 'endneuron<br>';
-            }
-            echo 'endlayer<br><br>';
-        }
+        $net->train(array(0, 0));
 
         // $nLayer = new NeuronLayer();
 
@@ -64,6 +56,6 @@ class CoreController extends ContainerAware
 
         // var_dump($activation);
 
-        return array();
+        return array('network' => $net);
     }
 }
