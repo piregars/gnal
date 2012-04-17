@@ -21,21 +21,25 @@ class CoreController extends ContainerAware
         $em = $this->container->get('doctrine')->getEntityManager();
         $network = $em->getRepository('GnalAnnBundle:Network')->findOneBy(array('id' => 1));
 
-        // $trainingSets[0] = array('input' => array(1, 1), 'expectedOutput' => 1);
-        // $trainingSets[1] = array('input' => array(1, 0), 'expectedOutput' => 0);
-        // $trainingSets[2] = array('input' => array(0, 1), 'expectedOutput' => 0);
-        // $trainingSets[3] = array('input' => array(0, 0), 'expectedOutput' => 0);
+        // $trainingSets[0] = array('input' => array(1,1,1), 'expectedOutput' => 0);
+        // $trainingSets[1] = array('input' => array(1,1,0), 'expectedOutput' => 0);
+        // $trainingSets[2] = array('input' => array(1,0,0), 'expectedOutput' => 1);
+        // $trainingSets[3] = array('input' => array(0,1,1), 'expectedOutput' => 0);
+        // $trainingSets[4] = array('input' => array(0,0,1), 'expectedOutput' => 1);
+        // $trainingSets[5] = array('input' => array(1,0,1), 'expectedOutput' => 0);
+        // $trainingSets[6] = array('input' => array(0,1,0), 'expectedOutput' => 1);
+        // $trainingSets[7] = array('input' => array(0,0,0), 'expectedOutput' => 0);
 
         // for ($i=0; $i < 1000; $i++) {
-        //     $network->train($trainingSets[rand(0, 3)]);
+        //     $network->train($trainingSets[rand(0, 7)]);
         // }
 
         // $em->persist($network);
         // $em->flush();
-        // die();
+
         /***********************************************************************************/
 
-        die($network->propagateForward(array(1, 0)));
+        die($network->run(array(1, 1, 0)));
 
         return array();
     }

@@ -52,7 +52,7 @@ class Network
         }
     }
 
-    public function propagateForward(array $input)
+    public function run(array $input)
     {
         $output = array();
         $i = 0;
@@ -71,7 +71,7 @@ class Network
         }
     }
 
-    public function propagateBackward($expectedOutput)
+    public function learn($expectedOutput)
     {
         $l = $this->layers->count() - 1;
         $errors = array();
@@ -90,8 +90,8 @@ class Network
                 $errors[$i] = array_fill(0, $neuron->getSynapses()->count(), 0);
 
                 foreach ($neuron->getSynapses() as $s => $synapse) {
-                    $newWeight = $neuron->calcWeight($delta, $synapse->getWeight(), $synapse->getInput());
-                    $newBias = $neuron->calcBias($delta);
+                    $newWeight = $neuron->calcNewWeight($delta, $synapse->getWeight(), $synapse->getInput());
+                    $newBias = $neuron->calcNewBias($delta);
 
                     $synapse->setWeight($newWeight);
                     $neuron->setBias($newBias);
@@ -104,8 +104,8 @@ class Network
 
     public function train(array $trainingSet)
     {
-        $this->propagateForward($trainingSet['input']);
-        $this->propagateBackward($trainingSet['expectedOutput']);
+        $this->run($trainingSet['input']);
+        $this->learn($trainingSet['expectedOutput']);
     }    
 
     public function getId()

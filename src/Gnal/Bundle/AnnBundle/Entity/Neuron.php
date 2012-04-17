@@ -79,12 +79,12 @@ class Neuron
         return $this->output * (1 - $this->output) * $errorFactor;
     }
 
-    public function calcBias($delta)
+    public function calcNewBias($delta)
     {
         return $this->bias + 0.5 * 1 * $delta;
     }
 
-    public function calcWeight($delta, $oldWeight, $input)
+    public function calcNewWeight($delta, $oldWeight, $input)
     {
         return $oldWeight + 0.5 * 1 * $delta * $input;
     }
