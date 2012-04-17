@@ -1,5 +1,5 @@
 <?php
-//
+
 namespace Gnal\Bundle\AnnBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

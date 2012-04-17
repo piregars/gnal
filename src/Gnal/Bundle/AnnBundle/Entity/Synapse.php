@@ -1,9 +1,5 @@
 <?php
 
-/*
- * @author Alexis Joubert <qwertypianox@gmail.com>
- */
-
 namespace Gnal\Bundle\AnnBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
