@@ -39,6 +39,8 @@ class Network
 
     protected $input;
 
+    protected $learnRate = 0.5;
+
     public function __construct(array $nbsNeurons)
     {
         $this->layers = new ArrayCollection();
@@ -94,8 +96,8 @@ class Network
                 $errors[$i] = array_fill(0, $neuron->getSynapses()->count(), 0);
 
                 foreach ($neuron->getSynapses() as $s => $synapse) {
-                    $newWeight = $neuron->calcNewWeight($delta, $synapse->getWeight(), $synapse->getInput());
-                    $newBias = $neuron->calcNewBias($delta);
+                    $newWeight = $neuron->calcNewWeight($this->learnRate, $delta, $synapse->getWeight(), $synapse->getInput());
+                    $newBias = $neuron->calcNewBias($this->learnRate, $delta);
 
                     $synapse->setWeight($newWeight);
                     $neuron->setBias($newBias);
@@ -161,6 +163,18 @@ class Network
     public function setInput($input)
     {
         $this->input = $input;
+    
+        return $this;
+    }
+
+    public function getLearnRate()
+    {
+        return $this->learnRate;
+    }
+    
+    public function setLearnRate($learnRate)
+    {
+        $this->learnRate = $learnRate;
     
         return $this;
     }
