@@ -86,11 +86,7 @@ class Neuron
 
     public function calcHiddenNeuronErrorFactor($deltas)
     {
-        die(print_r($deltas));
-        $sum = 0;
-        foreach ($deltas as $delta) {
-            $sum += $delta * 
-        }
+        print_r($deltas);
     }
 
     public function getLayer()
@@ -144,5 +140,15 @@ class Neuron
     public function getId()
     {
         return $this->id;
+    }
+
+    public function addSynapse($synapse)
+    {
+        $this->synapses[] = $synapse;
+    }
+    
+    public function getSynapses()
+    {
+        return $this->synapses;
     }
 }

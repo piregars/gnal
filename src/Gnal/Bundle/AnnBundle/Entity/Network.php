@@ -69,6 +69,7 @@ class Network
     {
         $l = $this->layers->count() - 1;
         $deltas = array();
+        $errorFactors = array();
 
         for ($i=$l; $i >= 0; $i--) {
             foreach ($this->layers[$i]->getNeurons() as $neuron) {
@@ -84,7 +85,11 @@ class Network
 
                 foreach ($neuron->getSynapses() as $synapse) {
                     $newBias = $neuron->getBias() + 1.5 * 1 * $delta;
-                    $newWeight = $synapse->getWeight() + 1.5 * 1 * $delta * 
+                    $newWeight = $synapse->getWeight() + 1.5 * 1 * $delta * $synapse->getInput();
+
+                    $neuron->setBias($newBias);
+                    $synapse->setWeight($newWeight);
+                    $errorFactors[$i][] = $delta * $newWeight;
                 }
             }
         }

@@ -28,7 +28,9 @@ class CoreController extends ContainerAware
 
         $network = $em->getRepository('GnalAnnBundle:Network')->findOneBy(array('id' => 1));
 
-        $network->train(array(0, 1), 0);
+        for ($i=0; $i < 100; $i++) { 
+            $network->train(array(1, 0), 0);
+        }
 
         $em->persist($network);
         $em->flush();
