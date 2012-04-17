@@ -11,32 +11,38 @@ class Network
     public function __construct(array $nbsNeurons)
     {
         $i = 0;
-        $prevNbNeurons = 1;
+        $nbWeights = 0;
         foreach ($nbsNeurons as $nbNeurons) {
-            $this->layers[] = new Layer($nbNeurons, $prevNbNeurons);
-            $prevNbNeurons = $nbNeurons;
+            if ($i > 0) {
+                $this->layers[] = new Layer($nbNeurons, $nbWeights);
+            }
+            $nbWeights = $nbNeurons;
             $i++;
         }
     }
 
-    public function run($inputs)
+    public function run(array $input)
     {
-        $outputs = array();
-        $l = 0;
+        $output = array();
+        $i = 0;
+        echo '-----------<br>';
         foreach ($this->layers as $layer) {
             foreach ($layer->getNeurons() as $neuron) {
-                $x = $l === 0 ? $inputs : $outputs[$l];
-                $i = 0;
-                $sum = 0;
-                foreach ($neuron->getWeights() as $weight) {
-                    $sum += $weight * $x[$i];
-                    $i++;
-                }
-                $outputs[$l + 1][] = $this->sigma($sum+1);
+                $in = $i === 0 ? $input : $output[$i-1];
+
+                $out = $neuron->process($in);
+
+                $output[$i][] = $out;
+
+                // $y = $this->sigma($sum+1);
+                // var_dump($y);
+                // $output[] = $y >= 0.8 ? 1 : 0;
+                // $output[$l + 1][] = $this->sigma($sum+1);
             }
-            $l++;
+            $i++;
+            echo '-----------<br>';
         }
-        die(print_r($outputs));
+        die();
     }
 
     public function sigma($val)
@@ -44,32 +50,10 @@ class Network
         return 1 / (1 + exp(-1 * $val));
     }
 
-    public function train(array $inputs)
+    public function train(array $input)
     {
-        $this->run($inputs);
+        $this->run($input);
     }
-
-    // public function train($x)
-    // {
-    //     $outputs = array();
-
-    //     foreach ($this->neuronLayers as $layer) {
-    //         foreach ($layer->getNeurons() as $neuron) {
-    //             $a = 0;
-    //             $w = $neuron->getWeights();
-
-    //             for ($i=0; $i < $neuron->getNbInputs(); $i++) { 
-    //                 $a += $x['inputs'][$i] * $w[$i];
-    //             }
-    //             // die(var_dump($a));
-    //             if ($a + (-1 * $theta) >= 0) {
-    //                 return true;
-    //             } else {
-    //                 return false;
-    //             }
-    //         }
-    //     }
-    // }
 
     public function getLayers()
     {

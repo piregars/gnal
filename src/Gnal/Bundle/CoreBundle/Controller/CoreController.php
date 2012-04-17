@@ -22,7 +22,7 @@ class CoreController extends ContainerAware
     {
         $net = $this->container->get('brain')->createNeuralNetwork(array(2, 3, 1));
 
-        $net->train(array(0, 0));
+        $net->train(array(0, 1));
 
         // $nLayer = new NeuronLayer();
 

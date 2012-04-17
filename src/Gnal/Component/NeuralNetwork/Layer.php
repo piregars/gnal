@@ -8,10 +8,10 @@ class Layer
 {
     private $neurons = array();
 
-    public function __construct($nbNeurons, $prevNbNeurons)
+    public function __construct($nbNeurons, $nbWeights)
     {
         for ($i=0; $i < $nbNeurons; $i++) {
-            $this->neurons[] = new Neuron($prevNbNeurons);
+            $this->neurons[] = new Neuron($nbWeights);
         }
     }
 
