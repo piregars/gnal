@@ -79,16 +79,6 @@ class Neuron
         return $this->output * (1 - $this->output) * $errorFactor;
     }
 
-    public function calcOutputNeuronErrorFactor($expectedOutput)
-    {
-        return $expectedOutput - $this->output;
-    }
-
-    public function calcHiddenNeuronErrorFactor($deltas)
-    {
-        print_r($deltas);
-    }
-
     public function calcBias($delta)
     {
         return $this->bias + 0.5 * 1 * $delta;

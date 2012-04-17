@@ -74,28 +74,29 @@ class Network
     public function propagateBackward($expectedOutput)
     {
         $l = $this->layers->count() - 1;
-        $deltas = array();
-        $errorFactors = array();
+        $errors = array();
 
         for ($i=$l; $i >= 0; $i--) {
-            foreach ($this->layers[$i]->getNeurons() as $neuron) {
+            $errors[$i] = array();
+            foreach ($this->layers[$i]->getNeurons() as $n => $neuron) {
                 if ($i === $l) {
-                    $delta = $neuron->calcDelta($neuron->calcOutputNeuronErrorFactor($expectedOutput));
-                    $deltas[$i][] = $delta;
+                    $delta = $neuron->calcDelta($expectedOutput - $neuron->getOutput());
                     $neuron->setDelta($delta);
                 } else {
-                    $delta = $neuron->calcDelta($neuron->calcHiddenNeuronErrorFactor($deltas[$i+1]));
-                    $deltas[$i][] = $delta;
+                    $delta = $neuron->calcDelta($errors[$i+1][$n]);
                     $neuron->setDelta($delta);
                 }
 
-                foreach ($neuron->getSynapses() as $synapse) {
+                $errors[$i] = array_fill(0, $neuron->getSynapses()->count(), 0);
+
+                foreach ($neuron->getSynapses() as $s => $synapse) {
                     $newWeight = $neuron->calcWeight($delta, $synapse->getWeight(), $synapse->getInput());
                     $newBias = $neuron->calcBias($delta);
 
                     $synapse->setWeight($newWeight);
                     $neuron->setBias($newBias);
-                    $errorFactors[$i][] = $delta * $newWeight;
+
+                    $errors[$i][$s] += $delta * $newWeight;
                 }
             }
         }
