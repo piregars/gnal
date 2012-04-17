@@ -36,6 +36,7 @@ class CoreController extends ContainerAware
 
         // $em->persist($network);
         // $em->flush();
+        
         $network->run(array(mt_rand(0,1), mt_rand(0,1), mt_rand(0,1)));
         $input = $network->getInput();
         echo 'Age: '.$network->getAge().' epochs.<br>';
