@@ -53,17 +53,13 @@ class Neuron
     {
         $i=0;
         $activation = $this->bias;
-        $theta = 1.5;
         foreach ($this->synapses as $synapse) {
             $synapse->setInput($input[$i]);
             $activation += $synapse->getInput() * $synapse->getWeight();
-            echo 'in: '.$input[$i].'<br>';
             $i++;
         }
 
-        // $output = $activation >= $theta ? 1 : 0;
         $output = $this->sigmoid($activation);
-        echo ('<strong>output</strong>: '.$output.'<br>');
         $this->output = $output;
 
         return $output;

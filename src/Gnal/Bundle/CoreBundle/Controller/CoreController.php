@@ -31,16 +31,21 @@ class CoreController extends ContainerAware
         // $trainingSets[7] = array('input' => array(0,0,0), 'expectedOutput' => 0);
 
         // for ($i=0; $i < 1000; $i++) {
-        //     $network->train($trainingSets[rand(0, 7)]);
+        //     $network->train($trainingSets[mt_rand(0, 7)]);
         // }
 
         // $em->persist($network);
         // $em->flush();
+        $network->run(array(mt_rand(0,1), mt_rand(0,1), mt_rand(0,1)));
+        $input = $network->getInput();
+        echo 'Age: '.$network->getAge().' epochs.<br>';
+        echo 'Input: ';
+        echo $input[0].' '.$input[1].' '.$input[2];
+        echo '<br>';
+        echo 'Output: '.$network->getOutput();
 
         /***********************************************************************************/
 
-        die($network->run(array(1, 1, 0)));
-
-        return array();
+        return new Response();
     }
 }

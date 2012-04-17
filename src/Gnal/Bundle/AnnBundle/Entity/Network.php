@@ -33,7 +33,11 @@ class Network
     /**
      * @ORM\Column(type="integer")
      */
-    protected $epochs = 0;
+    protected $age = 0;
+
+    protected $output;
+
+    protected $input;
 
     public function __construct(array $nbsNeurons)
     {
@@ -54,10 +58,9 @@ class Network
 
     public function run(array $input)
     {
+        $this->input = $input;
         $output = array();
         $i = 0;
-        $this->epochs++;
-        echo '-----------<br>';
         foreach ($this->layers as $layer) {
             foreach ($layer->getNeurons() as $neuron) {
                 $in = $i === 0 ? $input : $output[$i-1];
@@ -67,14 +70,15 @@ class Network
                 $output[$i][] = $out;
             }
             $i++;
-            echo '-----------<br>';
         }
+        $this->output = $out;
     }
 
     public function learn($expectedOutput)
     {
         $l = $this->layers->count() - 1;
         $errors = array();
+        $this->age++;
 
         for ($i=$l; $i >= 0; $i--) {
             $errors[$i] = array();
@@ -121,6 +125,42 @@ class Network
     public function setName($name)
     {
         $this->name = $name;
+    
+        return $this;
+    }
+
+    public function getAge()
+    {
+        return $this->age;
+    }
+    
+    public function setAge($age)
+    {
+        $this->age = $age;
+    
+        return $this;
+    }
+
+    public function getOutput()
+    {
+        return $this->output;
+    }
+    
+    public function setOutput($output)
+    {
+        $this->output = $output;
+    
+        return $this;
+    }
+
+    public function getInput()
+    {
+        return $this->input;
+    }
+    
+    public function setInput($input)
+    {
+        $this->input = $input;
     
         return $this;
     }
