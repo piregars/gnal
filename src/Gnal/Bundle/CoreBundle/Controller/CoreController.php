@@ -20,20 +20,19 @@ class CoreController extends ContainerAware
     {
         $em = $this->container->get('doctrine')->getEntityManager();
 
-        // $network = new Network(array(2, 3, 1));
-        // $network->setName('Perceptron');
-        
-        // $em->persist($network);
-        // $em->flush();
-
         $network = $em->getRepository('GnalAnnBundle:Network')->findOneBy(array('id' => 1));
 
-        for ($i=0; $i < 100; $i++) { 
-            $network->train(array(1, 0), 0);
+        $trainingSets[0] = array('input' => array(1, 1), 'expectedOutput' => 1);
+        $trainingSets[1] = array('input' => array(1, 0), 'expectedOutput' => 0);
+        $trainingSets[2] = array('input' => array(0, 1), 'expectedOutput' => 0);
+        $trainingSets[3] = array('input' => array(0, 0), 'expectedOutput' => 0);
+
+        for ($i=0; $i < 1; $i++) {
+            $network->train($trainingSets[rand(0, 3)]);
         }
 
-        $em->persist($network);
-        $em->flush();
+        // $em->persist($network);
+        // $em->flush();
 
         die($network->getName());
         return array();

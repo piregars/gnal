@@ -30,6 +30,11 @@ class Network
      */
     protected $layers;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $epochs = 0;
+
     public function __construct(array $nbsNeurons)
     {
         $this->layers = new ArrayCollection();
@@ -51,6 +56,7 @@ class Network
     {
         $output = array();
         $i = 0;
+        $this->epochs++;
         echo '-----------<br>';
         foreach ($this->layers as $layer) {
             foreach ($layer->getNeurons() as $neuron) {
@@ -84,21 +90,21 @@ class Network
                 }
 
                 foreach ($neuron->getSynapses() as $synapse) {
-                    $newBias = $neuron->getBias() + 1.5 * 1 * $delta;
-                    $newWeight = $synapse->getWeight() + 1.5 * 1 * $delta * $synapse->getInput();
+                    $newWeight = $neuron->calcWeight($delta, $synapse->getWeight(), $synapse->getInput());
+                    $newBias = $neuron->calcBias($delta);
 
-                    $neuron->setBias($newBias);
                     $synapse->setWeight($newWeight);
+                    $neuron->setBias($newBias);
                     $errorFactors[$i][] = $delta * $newWeight;
                 }
             }
         }
     }
 
-    public function train(array $input, $expectedOutput)
+    public function train(array $trainingSet)
     {
-        $this->propagateForward($input);
-        $this->propagateBackward($expectedOutput);
+        $this->propagateForward($trainingSet['input']);
+        $this->propagateBackward($trainingSet['expectedOutput']);
     }    
 
     public function getId()

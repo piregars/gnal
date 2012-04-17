@@ -5,9 +5,6 @@ namespace Gnal\Bundle\AnnBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Gnal\Bundle\AnnBundle\Entity\Network;
-use Gnal\Bundle\AnnBundle\Entity\Layer;
-use Gnal\Bundle\AnnBundle\Entity\Neuron;
-use Gnal\Bundle\AnnBundle\Entity\Synapse;
 
 class LoadAnnData extends AbstractFixture
 {
@@ -17,20 +14,10 @@ class LoadAnnData extends AbstractFixture
     {
         $this->manager = $manager;
 
-        $network = new Network();
-        $network->setName('XOR');
+        $network = new Network(array(2, 3, 1));
+        $network->setName('Perceptron 2-3-1');
 
-        $layer = new Layer();
-
-        $
-    }
-
-    protected function loadEquipmentType()
-    {
-        $e = new EquipmentType();
-        $e->setName('Test Calibration');
-        $this->type = $e;
-        $this->save($e);
+        $this->save($network);
     }
 
     protected function save($e)

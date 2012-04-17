@@ -74,19 +74,29 @@ class Neuron
         return 1 / (1 + exp(-1 * $val));
     }
 
-    public function calcOutputNeuronErrorFactor($expectedOutput)
-    {
-        return $expectedOutput - $this->output;
-    }
-
     public function calcDelta($errorFactor)
     {
         return $this->output * (1 - $this->output) * $errorFactor;
     }
 
+    public function calcOutputNeuronErrorFactor($expectedOutput)
+    {
+        return $expectedOutput - $this->output;
+    }
+
     public function calcHiddenNeuronErrorFactor($deltas)
     {
         print_r($deltas);
+    }
+
+    public function calcBias($delta)
+    {
+        return $this->bias + 0.5 * 1 * $delta;
+    }
+
+    public function calcWeight($delta, $oldWeight, $input)
+    {
+        return $oldWeight + 0.5 * 1 * $delta * $input;
     }
 
     public function getLayer()
