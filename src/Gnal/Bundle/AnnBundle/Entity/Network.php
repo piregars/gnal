@@ -47,7 +47,7 @@ class Network
         }
     }
 
-    public function run(array $input)
+    public function propagateForward(array $input)
     {
         $output = array();
         $i = 0;
@@ -63,12 +63,37 @@ class Network
             $i++;
             echo '-----------<br>';
         }
-        die();
     }
 
-    public function train(array $input)
+    public function propagateBackward($expectedOutput)
     {
-        $this->run($input);
+        $l = $this->layers->count() - 1;
+        $deltas = array();
+
+        for ($i=$l; $i >= 0; $i--) {
+            foreach ($this->layers[$i]->getNeurons() as $neuron) {
+                if ($i === $l) {
+                    $delta = $neuron->calcDelta($neuron->calcOutputNeuronErrorFactor($expectedOutput));
+                    $deltas[$i][] = $delta;
+                    $neuron->setDelta($delta);
+                } else {
+                    $delta = $neuron->calcDelta($neuron->calcHiddenNeuronErrorFactor($deltas[$i+1]));
+                    $deltas[$i][] = $delta;
+                    $neuron->setDelta($delta);
+                }
+
+                foreach ($neuron->getSynapses() as $synapse) {
+                    $newBias = $neuron->getBias() + 1.5 * 1 * $delta;
+                    $newWeight = $synapse->getWeight() + 1.5 * 1 * $delta * 
+                }
+            }
+        }
+    }
+
+    public function train(array $input, $expectedOutput)
+    {
+        $this->propagateForward($input);
+        $this->propagateBackward($expectedOutput);
     }    
 
     public function getId()

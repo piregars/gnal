@@ -28,10 +28,20 @@ class Neuron
      */
     protected $synapses;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    protected $bias;
+
+    protected $output;
+
+    protected $delta;
+
     public function __construct($nbWeights)
     {
         $synapses = new ArrayCollection();
-        
+        $this->bias = mt_rand(1, 999) / 1000;
+
         for ($i=0; $i < $nbWeights; $i++) {
             $synapse = new Synapse();
             $synapse->setNeuron($this);
@@ -42,23 +52,45 @@ class Neuron
     public function process($input)
     {
         $i=0;
-        $activation = 0;
-        $theta = 0.5;
+        $activation = $this->bias;
+        $theta = 1.5;
         foreach ($this->synapses as $synapse) {
-            $activation += $input[$i] * $synapse->getWeight();
+            $synapse->setInput($input[$i]);
+            $activation += $synapse->getInput() * $synapse->getWeight();
             echo 'in: '.$input[$i].'<br>';
             $i++;
         }
 
-        $output = $activation >= $theta ? 1 : 0;
-        // $output = $this->sigma($activation);
+        // $output = $activation >= $theta ? 1 : 0;
+        $output = $this->sigmoid($activation);
         echo ('<strong>output</strong>: '.$output.'<br>');
+        $this->output = $output;
+
         return $output;
     }
 
-    public function sigma($val)
+    public function sigmoid($val)
     {
         return 1 / (1 + exp(-1 * $val));
+    }
+
+    public function calcOutputNeuronErrorFactor($expectedOutput)
+    {
+        return $expectedOutput - $this->output;
+    }
+
+    public function calcDelta($errorFactor)
+    {
+        return $this->output * (1 - $this->output) * $errorFactor;
+    }
+
+    public function calcHiddenNeuronErrorFactor($deltas)
+    {
+        die(print_r($deltas));
+        $sum = 0;
+        foreach ($deltas as $delta) {
+            $sum += $delta * 
+        }
     }
 
     public function getLayer()
@@ -69,6 +101,42 @@ class Neuron
     public function setLayer($layer)
     {
         $this->layer = $layer;
+    
+        return $this;
+    }
+
+    public function getBias()
+    {
+        return $this->bias;
+    }
+    
+    public function setBias($bias)
+    {
+        $this->bias = $bias;
+    
+        return $this;
+    }
+
+    public function getOutput()
+    {
+        return $this->output;
+    }
+    
+    public function setOutput($output)
+    {
+        $this->output = $output;
+    
+        return $this;
+    }
+
+    public function getDelta()
+    {
+        return $this->delta;
+    }
+    
+    public function setDelta($delta)
+    {
+        $this->delta = $delta;
     
         return $this;
     }

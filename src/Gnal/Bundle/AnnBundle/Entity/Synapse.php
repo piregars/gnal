@@ -28,6 +28,8 @@ class Synapse
      */
     protected $neuron;
 
+    protected $input;
+
     public function __construct()
     {
         $this->weight = mt_rand(1, 999) / 1000;
@@ -46,6 +48,18 @@ class Synapse
     public function setWeight($weight)
     {
         $this->weight = $weight;
+    
+        return $this;
+    }
+
+    public function getInput()
+    {
+        return $this->input;
+    }
+    
+    public function setInput($input)
+    {
+        $this->input = $input;
     
         return $this;
     }
