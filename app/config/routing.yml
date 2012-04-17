@@ -1,3 +1,8 @@
+GnalAnnBundle:
+    resource: "@GnalAnnBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 GnalLanguageBundle:
     resource: "@GnalLanguageBundle/Controller/"
     type:     annotation

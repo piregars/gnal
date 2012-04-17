@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Acme\UserBundle\AcmeUserBundle(),
             new Gnal\Bundle\CoreBundle\GnalCoreBundle(),
             new Gnal\Bundle\LanguageBundle\GnalLanguageBundle(),
+            new Gnal\Bundle\AnnBundle\GnalAnnBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

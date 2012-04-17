@@ -45,11 +45,6 @@ class Network
         die();
     }
 
-    public function sigma($val)
-    {
-        return 1 / (1 + exp(-1 * $val));
-    }
-
     public function train(array $input)
     {
         $this->run($input);

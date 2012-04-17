@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Gnal\Bundle\CoreBundle\Brain\NeuralNet;
-use Gnal\Bundle\CoreBundle\Brain\NeuronLayer;
-use Gnal\Bundle\CoreBundle\Brain\Neuron;
+use Gnal\Bundle\AnnBundle\Entity\Network;
 
 class CoreController extends ContainerAware
 {
@@ -20,42 +18,22 @@ class CoreController extends ContainerAware
      */
     public function indexAction()
     {
-        $net = $this->container->get('brain')->createNeuralNetwork(array(2, 3, 1));
+        $em = $this->container->get('doctrine')->getEntityManager();
 
-        $net->train(array(0, 1));
+        // $network = new Network(array(2, 3, 1));
+        // $network->setName('XOR');
+        
+        // $em->persist($network);
+        // $em->flush();
 
-        // $nLayer = new NeuronLayer();
+        $network = $em->getRepository('GnalAnnBundle:Network')->findOneBy(array('id' => 1));
 
-        // $nLayer
-        //     ->addNeuron(new Neuron(9))
-        //     ->addNeuron(new Neuron(9))
-        // ;
-        // $nNet->addNeuronLayer($nLayer);
+        $network->train(array(0, 1));
 
-        // do {
-        //     $set = array();
-            
-        //     for ($i=0; $i < 9; $i++) { 
-        //         $set['x'][] = mt_rand(0,1);
-        //     }
+        $em->persist($network);
+        $em->flush();
 
-        //     if (array(0,1,0,1,1,1,0,1,0) === $set['x']) $set['target'] = true;
-
-        //     $result = $nNet->feed($set);
-        // } while ($result !== true);
-
-        // die(print_r($results));
-
-        // $x = array(0,1,0,1,1,1,0,1,0);
-        // $w = array(0,1,0,1,1,1,0,1,0);
-        // $activation = 0;
-
-        // for ($i=0; $i < count($x); $i++) { 
-        //     $activation += $x[$i] * $w[$i];
-        // }
-
-        // var_dump($activation);
-
-        return array('network' => $net);
+        die($network->getName());
+        return array();
     }
 }

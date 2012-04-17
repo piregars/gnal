@@ -61,6 +61,7 @@ doctrine:
                     MsiAdminBundle: ~
                     AcmeUserBundle: ~
                     GnalLanguageBundle: ~
+                    GnalAnnBundle: ~
                     translatable:
                         alias: Gedmo
                         type: annotation

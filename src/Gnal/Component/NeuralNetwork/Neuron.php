@@ -25,8 +25,14 @@ class Neuron
         }
 
         $output = $activation >= $theta ? 1 : 0;
+        // $output = $this->sigma($activation);
         echo ('<strong>output</strong>: '.$output.'<br>');
         return $output;
+    }
+
+    public function sigma($val)
+    {
+        return 1 / (1 + exp(-1 * $val));
     }
 
     public function getWeights()
