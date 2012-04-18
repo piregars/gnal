@@ -40,9 +40,9 @@ class Neuron
     public function __construct($nbSynapses)
     {
         $synapses = new ArrayCollection();
-        $this->bias = mt_rand(1, 999) / 1000;
+        $this->bias = mt_rand(333, 999) / 1000;
 
-        for ($i=0; $i < $nbSynapses; $i++) {
+        for ($i = 0; $i < $nbSynapses; $i++) {
             $synapse = new Synapse();
             $synapse->setNeuron($this);
             $this->synapses[] = $synapse;
@@ -66,9 +66,9 @@ class Neuron
         return $output;
     }
 
-    public function sigmoid($val)
+    public function sigmoid($a)
     {
-        return 1 / (1 + exp(-1 * $val));
+        return 1 / (1 + exp(-1 * $a));
     }
 
     public function calcDelta($errorFactor)

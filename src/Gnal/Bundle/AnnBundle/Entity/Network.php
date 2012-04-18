@@ -70,17 +70,15 @@ class Network
 
         foreach ($this->layers as $layer) {
             foreach ($layer->getNeurons() as $neuron) {
-                $values = $i === 0 ? $inputs : $ob[$i-1];
-                $output = $neuron->process($values);
+                $output = $neuron->process($i === 0 ? $inputs : $ob[$i - 1]);
                 $ob[$i][] = $output;
-                if ($i === $l)
-                    $this->outputs[] = $output;
+                if ($i === $l) $this->outputs[] = $output;
             }
             $i++;
         }
     }
 
-    public function learn(array $expectedOutput)
+    public function learn(array $targets)
     {
         $l = $this->layers->count() - 1;
         $errors = array();
@@ -90,7 +88,7 @@ class Network
             $errors[$i] = array();
             foreach ($this->layers[$i]->getNeurons() as $n => $neuron) {
                 if ($i === $l) {
-                    $delta = $neuron->calcDelta($expectedOutput[$j] - $neuron->getOutput());
+                    $delta = $neuron->calcDelta($targets[$j] - $neuron->getOutput());
                     $neuron->setDelta($delta);
                     $j++;
                 } else {
@@ -117,7 +115,7 @@ class Network
     public function train(array $trainingSet)
     {
         $this->run($trainingSet['input']);
-        $this->learn($trainingSet['expectedOutput']);
+        $this->learn($trainingSet['targets']);
     }    
 
     public function getId()

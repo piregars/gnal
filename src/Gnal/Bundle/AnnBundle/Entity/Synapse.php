@@ -32,7 +32,7 @@ class Synapse
 
     public function __construct()
     {
-        $this->weight = mt_rand(1, 999) / 1000;
+        $this->weight = mt_rand(333, 999) / 1000;
     }
 
     public function getId()
