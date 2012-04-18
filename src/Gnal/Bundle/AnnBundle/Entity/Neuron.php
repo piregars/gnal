@@ -37,12 +37,12 @@ class Neuron
 
     protected $delta;
 
-    public function __construct($nbWeights)
+    public function __construct($nbSynapses)
     {
         $synapses = new ArrayCollection();
         $this->bias = mt_rand(1, 999) / 1000;
 
-        for ($i=0; $i < $nbWeights; $i++) {
+        for ($i=0; $i < $nbSynapses; $i++) {
             $synapse = new Synapse();
             $synapse->setNeuron($this);
             $this->synapses[] = $synapse;
@@ -51,8 +51,9 @@ class Neuron
 
     public function process($input)
     {
-        $i=0;
         $activation = $this->bias;
+
+        $i = 0;
         foreach ($this->synapses as $synapse) {
             $synapse->setInput($input[$i]);
             $activation += $synapse->getInput() * $synapse->getWeight();

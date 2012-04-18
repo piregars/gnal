@@ -1,7 +1,5 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}Gnal{% endblock %}
-
 {% block css %}
     <link href="{{ asset('/bundles/msiadmin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 {% endblock %}
@@ -9,21 +7,88 @@
 {% block jquery %}<script src="{{ asset('/bundles/msiadmin/vendor/jquery/jquery.js') }}"></script>{% endblock %}
 
 {% block body %}
-<div class="container" style="width: 980px;padding-top: 20px;">
-    {% for layer in network.layers %}
-    <div class="well">
+<div class="container">
+    <div class="hero-unit">
+    </div>
     <div class="row">
-        {% for neuron in layer.neurons %}
-        <div class="span{{ 12 / layer.neurons|length }}" style="text-align: center;">
-            <div class="well" style="background-color: #3a87ad;;margin-bottom: 0;">
-            {% for weight in neuron.weights %}
-            <span class="label label-important" style="position:relative;bottom: 59px;">{{ weight }}</span>
+        <div class="span12">
+            <p><a class="action-train btn btn-large btn-primary" href="{{ path('gnal_core_core_train', {'id': 1}) }}">TRAIN1</a>
+                <a class="action-train btn btn-large btn-primary" href="{{ path('gnal_core_core_train', {'id': 2}) }}">TRAIN2</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12 results">
+            
+        </div>
+    </div>
+    <table class="table table-bordered">
+    <tr>
+    <th>Name</th>
+    <th>Age</th>
+    </tr>
+    {% for net in networks %}
+    <tr>
+    <td>{{ net.name }}</td>
+    <td>{{ net.age }}</td>
+    <td>
+        <table class="table table-bordered">
+        <tr>
+        {% for layer in net.layers %}
+        <td>
+            <table class="table table-bordered">
+            {% for neuron in layer.neurons %}
+            <tr>
+            <th>Synapses S</th>
+            <th>Neuron N</th>
+            </tr>
+            <tr>
+            <td>
+                <table class="table table-bordered">
+                {% for synapse in neuron.synapses %}
+                <tr>
+                <td>S {{ synapse.weight }}</td>
+                </tr>
+                {% endfor %}
+                </table>
+            </td>
+            <td><span class="badge badge-info">N {{ neuron.id }}</span></td>
+            </tr>
             {% endfor %}
+            </table>
+        </td>
+        {% endfor %}
+        </tr>
+        </table>
+    </td>
+    </tr>
+    {% endfor %}
+    </table>
+    <div class="row">
+        <div class="span4">
+            <div class="progress progress-danger progress-striped" style="margin-bottom: 9px;">
+                <div class="bar" style="width: 0%"></div>
             </div>
         </div>
-        {% endfor %}
     </div>
-    </div>
-    {% endfor %}
 </div>
+{% endblock %}
+
+{% block bottom_js %}
+<script>
+    $('a.action-train').on('click', function(e) {
+        e.preventDefault();
+        $this = $(this);
+
+        $('div.bar').css('width', '100%');
+
+        $this.addClass('disabled').text('TRAINING...');
+        $.ajax($this.attr('href'), {
+            success: function(data) {
+                $this.removeClass('disabled').text('TRAIN');
+                $('div.bar').css('width', '0%');
+                $('div.results').html(data);
+            }
+        });
+    });
+</script>
 {% endblock %}

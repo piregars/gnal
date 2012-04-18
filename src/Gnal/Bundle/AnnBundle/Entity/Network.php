@@ -35,25 +35,27 @@ class Network
      */
     protected $age = 0;
 
+    /**
+     * @ORM\Column(type="float", name="learning_rate")
+     */
+    protected $learningRate = 0.5;
+
     protected $output;
 
     protected $input;
 
-    protected $learnRate = 0.5;
-
-    public function __construct(array $nbsNeurons)
+    public function __construct(array $params)
     {
         $this->layers = new ArrayCollection();
-        $i = 0;
-        $nbWeights = 0;
 
-        foreach ($nbsNeurons as $nbNeurons) {
+        $i = 0;
+        foreach ($params as $nbNeurons) {
             if ($i > 0) {
-                $layer = new Layer($nbNeurons, $nbWeights);
+                $layer = new Layer($nbNeurons, $nbSynapses);
                 $layer->setNetwork($this);
                 $this->layers[] = $layer;
             }
-            $nbWeights = $nbNeurons;
+            $nbSynapses = $nbNeurons;
             $i++;
         }
     }
@@ -89,15 +91,15 @@ class Network
                     $delta = $neuron->calcDelta($expectedOutput - $neuron->getOutput());
                     $neuron->setDelta($delta);
                 } else {
-                    $delta = $neuron->calcDelta($errors[$i+1][$n]);
+                    $delta = $neuron->calcDelta($errors[$i + 1][$n]);
                     $neuron->setDelta($delta);
                 }
 
                 $errors[$i] = array_fill(0, $neuron->getSynapses()->count(), 0);
 
                 foreach ($neuron->getSynapses() as $s => $synapse) {
-                    $newWeight = $neuron->calcNewWeight($this->learnRate, $delta, $synapse->getWeight(), $synapse->getInput());
-                    $newBias = $neuron->calcNewBias($this->learnRate, $delta);
+                    $newWeight = $neuron->calcNewWeight($this->learningRate, $delta, $synapse->getWeight(), $synapse->getInput());
+                    $newBias = $neuron->calcNewBias($this->learningRate, $delta);
 
                     $synapse->setWeight($newWeight);
                     $neuron->setBias($newBias);
@@ -117,6 +119,18 @@ class Network
     public function getId()
     {
         return $this->id;
+    }
+
+    public function addLayer($layer)
+    {
+        $this->layers[] = $layer;
+    
+        return $this;
+    }
+    
+    public function getLayers()
+    {
+        return $this->layers;
     }
 
     public function getName()
@@ -167,14 +181,14 @@ class Network
         return $this;
     }
 
-    public function getLearnRate()
+    public function getLearningRate()
     {
-        return $this->learnRate;
+        return $this->learningRate;
     }
     
-    public function setLearnRate($learnRate)
+    public function setLearningRate($learningRate)
     {
-        $this->learnRate = $learnRate;
+        $this->learningRate = $learningRate;
     
         return $this;
     }

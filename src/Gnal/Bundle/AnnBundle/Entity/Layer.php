@@ -28,12 +28,12 @@ class Layer
      */
     protected $neurons;
 
-    public function __construct($nbNeurons, $nbWeights)
+    public function __construct($nbNeurons, $nbSynapses)
     {
         $neurons = new ArrayCollection();
 
         for ($i=0; $i < $nbNeurons; $i++) {
-            $neuron = new Neuron($nbWeights);
+            $neuron = new Neuron($nbSynapses);
             $neuron->setLayer($this);
             $this->neurons[] = $neuron;
         }

@@ -4,6 +4,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-<!--     <services>
-    </services> -->
+    <services>
+        <service id="gnal_ann.network_manager" class="Gnal\Bundle\AnnBundle\Entity\NetworkManager">
+            <argument type="service" id="msi.admin.entity_manager" />
+            <argument>Gnal\Bundle\AnnBundle\Entity\Network</argument>
+        </service>
+    </services>
 </container>
