@@ -40,9 +40,9 @@ class Network
      */
     protected $learningRate = 0.5;
 
-    protected $outputs = array();
+    protected $outputs;
 
-    protected $inputs = array();
+    protected $inputs;
 
     public function __construct(array $params)
     {
@@ -62,9 +62,12 @@ class Network
 
     public function run(array $inputs)
     {
+        $this->inputs = $inputs;
+        $this->outputs = array();
         $l = $this->layers->count() - 1;
         $ob = array();
         $i = 0;
+
         foreach ($this->layers as $layer) {
             foreach ($layer->getNeurons() as $neuron) {
                 $values = $i === 0 ? $inputs : $ob[$i-1];
@@ -75,7 +78,6 @@ class Network
             }
             $i++;
         }
-        $this->inputs = $inputs;
     }
 
     public function learn(array $expectedOutput)
