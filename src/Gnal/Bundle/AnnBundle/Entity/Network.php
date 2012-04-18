@@ -40,9 +40,9 @@ class Network
      */
     protected $learningRate = 0.5;
 
-    protected $output;
+    protected $outputs = array();
 
-    protected $input;
+    protected $inputs = array();
 
     public function __construct(array $params)
     {
@@ -60,36 +60,37 @@ class Network
         }
     }
 
-    public function run(array $input)
+    public function run(array $inputs)
     {
-        $this->input = $input;
-        $output = array();
+        $l = $this->layers->count() - 1;
+        $ob = array();
         $i = 0;
         foreach ($this->layers as $layer) {
             foreach ($layer->getNeurons() as $neuron) {
-                $in = $i === 0 ? $input : $output[$i-1];
-
-                $out = $neuron->process($in);
-
-                $output[$i][] = $out;
+                $values = $i === 0 ? $inputs : $ob[$i-1];
+                $output = $neuron->process($values);
+                $ob[$i][] = $output;
+                if ($i === $l)
+                    $this->outputs[] = $output;
             }
             $i++;
         }
-        $this->output = $out;
+        $this->inputs = $inputs;
     }
 
-    public function learn($expectedOutput)
+    public function learn(array $expectedOutput)
     {
         $l = $this->layers->count() - 1;
         $errors = array();
-        $this->age++;
+        $j = 0;
 
         for ($i=$l; $i >= 0; $i--) {
             $errors[$i] = array();
             foreach ($this->layers[$i]->getNeurons() as $n => $neuron) {
                 if ($i === $l) {
-                    $delta = $neuron->calcDelta($expectedOutput - $neuron->getOutput());
+                    $delta = $neuron->calcDelta($expectedOutput[$j] - $neuron->getOutput());
                     $neuron->setDelta($delta);
+                    $j++;
                 } else {
                     $delta = $neuron->calcDelta($errors[$i + 1][$n]);
                     $neuron->setDelta($delta);
@@ -108,6 +109,7 @@ class Network
                 }
             }
         }
+        $this->age++;
     }
 
     public function train(array $trainingSet)
@@ -157,26 +159,26 @@ class Network
         return $this;
     }
 
-    public function getOutput()
+    public function getOutputs()
     {
-        return $this->output;
+        return $this->outputs;
     }
     
-    public function setOutput($output)
+    public function setOutputs($outputs)
     {
-        $this->output = $output;
+        $this->outputs = $outputs;
     
         return $this;
     }
 
-    public function getInput()
+    public function getInputs()
     {
-        return $this->input;
+        return $this->inputs;
     }
     
-    public function setInput($input)
+    public function setInputs($inputs)
     {
-        $this->input = $input;
+        $this->inputs = $inputs;
     
         return $this;
     }

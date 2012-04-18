@@ -75,20 +75,20 @@
 
 {% block bottom_js %}
 <script>
-    $('a.action-train').on('click', function(e) {
-        e.preventDefault();
-        $this = $(this);
+    // $('a.action-train').on('click', function(e) {
+    //     e.preventDefault();
+    //     $this = $(this);
 
-        $('div.bar').css('width', '100%');
+    //     $('div.bar').css('width', '100%');
 
-        $this.addClass('disabled').text('TRAINING...');
-        $.ajax($this.attr('href'), {
-            success: function(data) {
-                $this.removeClass('disabled').text('TRAIN');
-                $('div.bar').css('width', '0%');
-                $('div.results').html(data);
-            }
-        });
-    });
+    //     $this.addClass('disabled').text('TRAINING...');
+    //     $.ajax($this.attr('href'), {
+    //         success: function(data) {
+    //             $this.removeClass('disabled').text('TRAIN');
+    //             $('div.bar').css('width', '0%');
+    //             $('div.results').html(data);
+    //         }
+    //     });
+    // });
 </script>
 {% endblock %}

@@ -36,14 +36,14 @@ class CoreController extends ContainerAware
         $em = $this->container->get('doctrine')->getEntityManager();
         $network = $em->getRepository('GnalAnnBundle:Network')->findOneBy(array('id' => $id));
 
-        $trainingSets[0] = array('input' => array(1,1,1), 'expectedOutput' => 0);
-        $trainingSets[1] = array('input' => array(1,1,0), 'expectedOutput' => 0);
-        $trainingSets[2] = array('input' => array(1,0,0), 'expectedOutput' => 1);
-        $trainingSets[3] = array('input' => array(0,1,1), 'expectedOutput' => 0);
-        $trainingSets[4] = array('input' => array(0,0,1), 'expectedOutput' => 1);
-        $trainingSets[5] = array('input' => array(1,0,1), 'expectedOutput' => 0);
-        $trainingSets[6] = array('input' => array(0,1,0), 'expectedOutput' => 1);
-        $trainingSets[7] = array('input' => array(0,0,0), 'expectedOutput' => 0);
+        $trainingSets[0] = array('input' => array(1,1,1), 'expectedOutput' => array(0));
+        $trainingSets[1] = array('input' => array(1,1,0), 'expectedOutput' => array(0));
+        $trainingSets[2] = array('input' => array(1,0,0), 'expectedOutput' => array(1));
+        $trainingSets[3] = array('input' => array(0,1,1), 'expectedOutput' => array(0));
+        $trainingSets[4] = array('input' => array(0,0,1), 'expectedOutput' => array(1));
+        $trainingSets[5] = array('input' => array(1,0,1), 'expectedOutput' => array(0));
+        $trainingSets[6] = array('input' => array(0,1,0), 'expectedOutput' => array(1));
+        $trainingSets[7] = array('input' => array(0,0,0), 'expectedOutput' => array(0));
 
         $start = microtime(true);
         for ($i=0; $i < 1; $i++) {
@@ -54,12 +54,14 @@ class CoreController extends ContainerAware
         $em->persist($network);
         $em->flush();
 
-        $input = $network->getInput();
+        $input = $network->getInputs();
         echo 'Age: '.$network->getAge().' epochs.<br>';
         echo 'Input: ';
         echo $input[0].' '.$input[1].' '.$input[2];
         echo '<br>';
-        echo 'Output: '.$network->getOutput().'<br>';
+        echo 'Output: ';
+        print_r($network->getOutputs());
+        echo '<br>';
         echo 'Exec time: '.$exectime.'<br>';
         // $success = $network->getSuccess();
         // $failure = $network->getFailure();

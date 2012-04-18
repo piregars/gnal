@@ -33,7 +33,7 @@ class Neuron
      */
     protected $bias;
 
-    protected $output;
+    protected $output = array();
 
     protected $delta;
 
