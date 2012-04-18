@@ -13,7 +13,7 @@
     <div class="row">
         <div class="span12">
             <p><a class="action-train btn btn-large btn-primary" href="{{ path('gnal_core_core_train', {'id': 1}) }}">TRAIN1</a>
-                <a class="action-train btn btn-large btn-primary" href="{{ path('gnal_core_core_train', {'id': 2}) }}">TRAIN2</a></p>
+                <a class="action-run btn btn-large btn-primary" href="{{ path('gnal_core_core_run', {'id': 1}) }}">RUN</a></p>
         </div>
     </div>
     <div class="row">
@@ -75,20 +75,36 @@
 
 {% block bottom_js %}
 <script>
-    // $('a.action-train').on('click', function(e) {
-    //     e.preventDefault();
-    //     $this = $(this);
+    $('a.action-train').on('click', function(e) {
+        e.preventDefault();
+        $this = $(this);
 
-    //     $('div.bar').css('width', '100%');
+        $('div.bar').css('width', '100%');
 
-    //     $this.addClass('disabled').text('TRAINING...');
-    //     $.ajax($this.attr('href'), {
-    //         success: function(data) {
-    //             $this.removeClass('disabled').text('TRAIN');
-    //             $('div.bar').css('width', '0%');
-    //             $('div.results').html(data);
-    //         }
-    //     });
-    // });
+        $this.addClass('disabled').text('TRAINING...');
+        $.ajax($this.attr('href'), {
+            success: function(data) {
+                $this.removeClass('disabled').text('TRAIN');
+                $('div.bar').css('width', '0%');
+                $('div.results').html(data);
+            }
+        });
+    });
+
+    $('a.action-run').on('click', function(e) {
+        e.preventDefault();
+        $this = $(this);
+
+        $('div.bar').css('width', '100%');
+
+        $this.addClass('disabled').text('RUNNING...');
+        $.ajax($this.attr('href'), {
+            success: function(data) {
+                $this.removeClass('disabled').text('RUN');
+                $('div.bar').css('width', '0%');
+                $('div.results').html(data);
+            }
+        });
+    });
 </script>
 {% endblock %}
