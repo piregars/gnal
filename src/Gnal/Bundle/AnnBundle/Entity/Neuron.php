@@ -49,17 +49,16 @@ class Neuron
         }
     }
 
-    public function process($input)
+    public function process($inputs)
     {
         $activation = $this->bias;
-
         $i = 0;
+
         foreach ($this->synapses as $synapse) {
-            $synapse->setInput($input[$i]);
+            $synapse->setInput($inputs[$i]);
             $activation += $synapse->getInput() * $synapse->getWeight();
             $i++;
         }
-
         $output = $this->sigmoid($activation);
         $this->output = $output;
 
@@ -76,14 +75,14 @@ class Neuron
         return $this->output * (1 - $this->output) * $errorFactor;
     }
 
-    public function calcNewBias($learnRate, $delta)
+    public function calcNewBias($learningRate, $delta)
     {
-        return $this->bias + $learnRate * 1 * $delta;
+        return $this->bias + $learningRate * 1 * $delta;
     }
 
-    public function calcNewWeight($learnRate, $delta, $oldWeight, $input)
+    public function calcNewWeight($learningRate, $delta, $oldWeight, $input)
     {
-        return $oldWeight + $learnRate * 1 * $delta * $input;
+        return $oldWeight + $learningRate * 1 * $delta * $input;
     }
 
     public function getLayer()

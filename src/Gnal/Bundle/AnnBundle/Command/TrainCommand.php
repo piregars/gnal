@@ -26,11 +26,11 @@ class TrainCommand extends ContainerAwareCommand
         $trainingSets[3] = array('input' => array(0, 0, 0, 1, 0, 0, 0, 1), 'targets' => array(1, 0, 0, 1));
 
         $start = microtime(true);
-        for ($i=0; $i < 1000000000; $i++) {
+        for ($i=0; $i < 1; $i++) {
             $key = mt_rand(0, 3);
 
             $network->train($trainingSets[$key]);
-            // Output stuff
+            // Now output some stuff
             $output->writeln('Training... epochs: '.$network->getAge());
             $inputs = $network->getInputs();
             $outputs = $network->getOutputs();
@@ -45,6 +45,7 @@ class TrainCommand extends ContainerAwareCommand
             } else {
                 $output->writeln('<error>Outputs: '.round($outputs[0]).' '.round($outputs[1]).' '.round($outputs[2]).' '.round($outputs[3]).'</error>');
             }
+            $output->writeln('Error: '.$network->getErrorRate());
         }
         $exectime = microtime(true) - $start;
 

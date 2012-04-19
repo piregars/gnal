@@ -40,15 +40,15 @@ class Network
      */
     protected $learningRate = 0.5;
 
-    protected $outputs;
+    protected $outputs = array();
 
     protected $inputs;
 
     public function __construct(array $params)
     {
         $this->layers = new ArrayCollection();
-
         $i = 0;
+
         foreach ($params as $nbNeurons) {
             if ($i > 0) {
                 $layer = new Layer($nbNeurons, $nbSynapses);
@@ -63,7 +63,6 @@ class Network
     public function run(array $inputs)
     {
         $this->inputs = $inputs;
-        $this->outputs = array();
         $l = $this->layers->count() - 1;
         $ob = array();
         $i = 0;
