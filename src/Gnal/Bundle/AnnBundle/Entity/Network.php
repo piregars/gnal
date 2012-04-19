@@ -40,7 +40,7 @@ class Network
      */
     protected $learningRate = 0.5;
 
-    protected $outputs = array();
+    protected $outputs;
 
     protected $inputs;
 
@@ -64,6 +64,7 @@ class Network
     {
         $this->inputs = $inputs;
         $l = $this->layers->count() - 1;
+        $this->outputs = array();
         $ob = array();
         $i = 0;
 
