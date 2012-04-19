@@ -44,6 +44,8 @@ class Network
 
     protected $inputs;
 
+    protected $win;
+
     public function __construct(array $params)
     {
         $this->layers = new ArrayCollection();
@@ -114,7 +116,7 @@ class Network
 
     public function train(array $trainingSet)
     {
-        $this->run($trainingSet['input']);
+        $this->run($trainingSet['inputs']);
         $this->learn($trainingSet['targets']);
     }    
 

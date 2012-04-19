@@ -20,36 +20,40 @@ class TrainCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $network = $em->getRepository('GnalAnnBundle:Network')->findOneBy(array('id' => 1));
 
-        $trainingSets[0] = array('input' => array(1, 0, 0, 0, 1, 0, 0, 0), 'targets' => array(1, 0, 0, 1));
-        $trainingSets[1] = array('input' => array(0, 1, 0, 0, 0, 1, 0, 0), 'targets' => array(0, 1, 1, 0));
-        $trainingSets[2] = array('input' => array(0, 0, 1, 0, 0, 0, 1, 0), 'targets' => array(0, 1, 1, 0));
-        $trainingSets[3] = array('input' => array(0, 0, 0, 1, 0, 0, 0, 1), 'targets' => array(1, 0, 0, 1));
-
+        $trainingSets[0] = array('inputs' => array(1, 0), 'targets' => array(1));
+        $trainingSets[1] = array('inputs' => array(1, 1), 'targets' => array(0));
+        $trainingSets[2] = array('inputs' => array(0, 0), 'targets' => array(0));
+        $trainingSets[3] = array('inputs' => array(0, 1), 'targets' => array(1));
+        $wins = 0;
         $start = microtime(true);
-        for ($i=0; $i < 10000; $i++) {
+        for ($i=0; $i < 100000; $i++) {
             $key = mt_rand(0, 3);
-
             $network->train($trainingSets[$key]);
+            if ($wins > 1000) break;
+
             // Now output some stuff
             $output->writeln('Training... epochs: '.$network->getAge());
             $inputs = $network->getInputs();
             $outputs = $network->getOutputs();
-            $output->writeln('Inputs: '.$inputs[0].' '.$inputs[1].' '.$inputs[2].' '.$inputs[3]);
+            $output->writeln('Inputs: '.$inputs[0].' '.$inputs[1]);
 
             foreach ($outputs as $k => $v) {
                 $outputs[$k] = round($v);
             }
 
             if ($outputs == $trainingSets[$key]['targets']) {
-                $output->writeln('<question>Outputs: '.round($outputs[0]).' '.round($outputs[1]).' '.round($outputs[2]).' '.round($outputs[3]).'</question>');
+                $wins++;
+                $output->writeln('<question>Outputs: '.round($outputs[0]).'</question>');
             } else {
-                $output->writeln('<error>Outputs: '.round($outputs[0]).' '.round($outputs[1]).' '.round($outputs[2]).' '.round($outputs[3]).'</error>');
+                $wins=0;
+                $output->writeln('<error>Outputs: '.round($outputs[0]).'</error>');
             }
+            $output->writeln('------------------');
         }
         $exectime = microtime(true) - $start;
 
-        $em->persist($network);
-        $em->flush();
+        // $em->persist($network);
+        // $em->flush();
 
         $output->writeln('Exec time: '.round($exectime).' sec');
     }
