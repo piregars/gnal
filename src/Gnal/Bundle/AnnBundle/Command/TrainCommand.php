@@ -20,17 +20,17 @@ class TrainCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $network = $em->getRepository('GnalAnnBundle:Network')->findOneBy(array('id' => 1));
 
-        $trainingSets[0] = array('input' => array(1, 0, 0, 0), 'targets' => array(0, 0, 0, 1));
-        $trainingSets[1] = array('input' => array(0, 1, 0, 0), 'targets' => array(0, 0, 1, 0));
-        $trainingSets[2] = array('input' => array(0, 0, 1, 0), 'targets' => array(0, 1, 0, 0));
-        $trainingSets[3] = array('input' => array(0, 0, 0, 1), 'targets' => array(1, 0, 0, 0));
+        $trainingSets[0] = array('input' => array(1, 0, 0, 0, 1, 0, 0, 0), 'targets' => array(1, 0, 0, 1));
+        $trainingSets[1] = array('input' => array(0, 1, 0, 0, 0, 1, 0, 0), 'targets' => array(0, 1, 1, 0));
+        $trainingSets[2] = array('input' => array(0, 0, 1, 0, 0, 0, 1, 0), 'targets' => array(0, 1, 1, 0));
+        $trainingSets[3] = array('input' => array(0, 0, 0, 1, 0, 0, 0, 1), 'targets' => array(1, 0, 0, 1));
 
         $start = microtime(true);
-        for ($i=0; $i < 30000; $i++) {
+        for ($i=0; $i < 1000000000; $i++) {
             $key = mt_rand(0, 3);
 
             $network->train($trainingSets[$key]);
-
+            // Output stuff
             $output->writeln('Training... epochs: '.$network->getAge());
             $inputs = $network->getInputs();
             $outputs = $network->getOutputs();
