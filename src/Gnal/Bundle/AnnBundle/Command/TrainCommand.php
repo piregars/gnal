@@ -41,7 +41,7 @@ class TrainCommand extends ContainerAwareCommand
                 $outputs[$k] = round($v);
             }
 
-            if ($outputs == $trainingSets[$key]['targets']) {
+            if ($outputs === $trainingSets[$key]['targets']) {
                 $wins++;
                 $output->writeln('<question>Outputs: '.round($outputs[0]).'</question>');
             } else {
