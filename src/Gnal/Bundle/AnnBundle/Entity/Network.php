@@ -62,9 +62,9 @@ class Network
         }
     }
 
-    public function scaleRange($number, $min, $max)
+    public function scale($n, $max)
     {
-        return $number / ($max - $min);
+        return $n / $max;
     }
 
     public function run(array $inputs)
