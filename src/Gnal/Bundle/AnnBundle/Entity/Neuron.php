@@ -53,7 +53,7 @@ class Neuron
     {
         $activation = $this->bias;
         $i = 0;
-
+        
         foreach ($this->synapses as $synapse) {
             $synapse->setInput($inputs[$i]);
             $activation += $synapse->getInput() * $synapse->getWeight();
@@ -75,14 +75,14 @@ class Neuron
         return $this->output * (1 - $this->output) * $errorFactor;
     }
 
-    public function calcNewBias($learningRate, $delta)
+    public function calcNewBias($lr, $delta)
     {
-        return $this->bias + $learningRate * 1 * $delta;
+        return $this->bias + $lr * 1 * $delta;
     }
 
-    public function calcNewWeight($learningRate, $delta, $oldWeight, $input)
+    public function calcNewWeight($lr, $delta, $oldWeight, $input)
     {
-        return $oldWeight + $learningRate * 1 * $delta * $input;
+        return $oldWeight + $lr * 1 * $delta * $input;
     }
 
     public function getLayer()

@@ -62,6 +62,11 @@ class Network
         }
     }
 
+    public function scaleRange($number, $min, $max)
+    {
+        return $number / ($max - $min);
+    }
+
     public function run(array $inputs)
     {
         $this->inputs = $inputs;
