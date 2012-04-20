@@ -14,7 +14,7 @@ class LoadAnnData extends AbstractFixture
     {
         $this->manager = $manager;
 
-        $network = new Network(array(5, 5, 1));
+        $network = new Network(array(3, 3, 1));
         $network->setLearningRate(0.5);
         $network->setName('MLP');
         $this->save($network);

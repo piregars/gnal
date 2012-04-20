@@ -19,28 +19,28 @@ class TrainCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $network = $em->getRepository('GnalAnnBundle:Network')->findOneBy(array('id' => 1));
-        
-        $trainingSets = array();
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(0,13),1,$network->scale(0,13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),0, $network->scale(0,13),1,$network->scale(0,13)), 'targets' => array(1));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(0,13),0,$network->scale(0,13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(mt_rand(1,11),13),0,$network->scale(mt_rand(1,11),13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(mt_rand(1,11),13),1,$network->scale(mt_rand(1,11),13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(mt_rand(1,11),13),0,$network->scale(mt_rand(1,11),13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(12,13),1,$network->scale(12,13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),0, $network->scale(12,13),1,$network->scale(12,13)), 'targets' => array(1));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(12,13),0,$network->scale(12,13)), 'targets' => array(1));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(mt_rand(1,11),13),0,$network->scale(mt_rand(1,11),13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(mt_rand(1,11),13),1,$network->scale(mt_rand(1,11),13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(13,13),1,$network->scale(13,13)), 'targets' => array(1));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(13,13),0,$network->scale(13,13)), 'targets' => array(0));
-        $trainingSets[] = array('inputs' => array($network->scale(mt_rand(0,25),25),1, $network->scale(mt_rand(1,11),13),1,$network->scale(mt_rand(1,11),13)), 'targets' => array(0));
+        // a b c d e f g h i j k l m n o p q r s t u v w x y z
+        $trainingSet = array('inputs' => array(),'targets' => array());
         
         $wins = 0;
         $start = microtime(true);
-        for ($i=0; $i < 100000; $i++) {
-            $key = mt_rand(013);
-            $network->train($trainingSets[$key]);
+        for ($i=0; $i < 1000000; $i++) {
+            $trainingSet['inputs'][0] = mt_rand(0, 4)/4;
+            $trainingSet['inputs'][1] = mt_rand(0, 4)/4;
+            $trainingSet['inputs'][2] = mt_rand(0, 4)/4;
+            $trainingSet['targets'][0] = 0;
+
+            // bed
+            if (
+                $trainingSet['inputs'] == array(1/4, 4/4, 3/4) ||
+                $trainingSet['inputs'] == array(2/4, 4/4, 3/4) ||
+                $trainingSet['inputs'] == array(3/4, 4/4, 3/4) ||
+                $trainingSet['inputs'] == array(4/4, 4/4, 3/4)
+            ) {
+                $trainingSet['targets'][0] = 1;
+            }
+            // die(print_r($trainingSet));
+            $network->train($trainingSet);
             // if ($wins > 50000) break;
 
             // Now output some stuff
@@ -48,15 +48,15 @@ class TrainCommand extends ContainerAwareCommand
             $inputs = $network->getInputs();
             $outputs = $network->getOutputs();
 
-            $res = array_keys($trainingSets);
+            // $res = array_keys($trainingSets);
             
-            $output->writeln('Inputs: '.$res[$key]);
+            // $output->writeln('Inputs: '.$res[$key]);
 
             foreach ($outputs as $k => $v) {
                 $outputs[$k] = round($v);
             }
 
-            if ($outputs == $trainingSets[$key]['targets']) {
+            if ($outputs == $trainingSet['targets']) {
                 $wins++;
                 $output->writeln('<question>Outputs: '.round($outputs[0]).'</question>');
             } else {
